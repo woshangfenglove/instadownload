@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action = "{% url 'main-page' %}" method="post">
+	{% csrf_token %}
+	<input type = "text" placeholder="Post url" name = "url">
+	<button>Send</button>
+</form>
+{% if post.isset %}
+	<h3>Information</h3>
+	<p>Profile: <a href = "https://instagram.com/{{ post.profile }}/" target="_blank">@{{ post.profile }}</a></p>
+	<p>Shortcode: {{ post.shortcode }}</p>
+	<p>Media ID: {{ post.mediaid }}</p>
+	<p>Post was created: {{ post.date_local }}</p>
+	{{ post.typename }}
+	{% if post.typename == 'GraphSidecar' %}
+		{% for sidecar in post.sidecar_node %}
+			{% if sidecar.is_video %}
+				<a href = "{{ sidecar.video_url }}" target="_blank">
+					<video src = "{{ sidecar.video_url }}" width="100"></video>
+				</a>
+			{% else %}
+				<a href = "{{ sidecar.display_url }}" target="_blank">
+					<img src = "{{ sidecar.display_url }}" width="100">
+				</a>
+			{% endif %}
+		{% endfor %}
+	{% else %}
+		{% if post.is_video %}
+			<a href = "{{ post.video_url }}" target="_blank">
+				<video src = "{{ post.video_url }}" width="100"></video>
+			</a>
+		{% else %}
+			<a href = "{{ post.display_url }}">
+				<img src = "{{ post.display_url }}" width="100">
+			</a>
+		{% endif %}
+	{% endif %}
+{% else %}
+	{{ post.error }}
+{% endif %}
+{{ error }}
+{% endblock %}
