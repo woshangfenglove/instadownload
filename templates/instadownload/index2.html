@@ -2,25 +2,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="text-center jumbotron">
-        <br/><br/>
-        <br/><br/>
-        <h1>intagram pic download</h1>
-        <br/>
-    </div>
+
 <form action = "{% url 'main-page' %}" method="post">
 	{% csrf_token %}
-{#	<input type = "text" placeholder="Post url" name = "url">#}
-{#    <button>Send</button>#}
-
-    <div class="col-lg-6 col-lg-offset-3">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="https://www.instagram.com/p/CGrbgvcszfV/?utm_source=ig_web_copy_link" name = "url" >
-              <span class="input-group-btn">
-                <button class="btn btn-default" >Send</button>
-              </span>
-        </div>
-    </div>
+	<input type = "text" placeholder="Post url" name = "url">
+	<button>Send</button>
 </form>
 {% if post.isset %}
 	<h3>Information</h3>
